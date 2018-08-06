@@ -5,7 +5,7 @@ def parse_goals():
     for line in tmp_file:
         temp_line = line.strip().split()
         goals.append([temp_line[0], int(temp_line[1]), temp_line[2], map(int, temp_line[3:])])
-
+    tmp_file.close()
     return goals
 
 
@@ -46,9 +46,20 @@ def get_element(goal):
         order[min(iterator, index)] = value
         order_elements(order, direction, min(iterator, index))
         iterator += 1
-    print(order[-2])
+    data_file.close()
+    return order[-2][0]
+
+
+def save_results():
+    global results
+    destination_file = open("results2.txt", "w")
+    for result in results:
+        destination_file.write(result + "\n")
+    destination_file.close()
 
 
 goals = parse_goals()
+results = []
 for goal in goals:
-    get_element(goal)
+    results.append(get_element(goal))
+save_results()
