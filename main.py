@@ -17,8 +17,9 @@ def swap(ordered_list, index):
 
 def order_elements(ordered_list, direction, index):
 	i = 0
-	while i < index:
+	while i <= index:
 		j = i
+		if ordered_list[j] == None: break
 		if direction == "ASC":
 			while j > 0 and ordered_list[j-1][1] > ordered_list[j][1]:
 				swap(ordered_list, j)
@@ -49,7 +50,7 @@ def get_element(goal):
 		order[min(iterator, index)] = value
 		iterator += 1
 		order_elements(order, direction, min(iterator, index))
-	print(order[-2])
+	print(order[-2][0])
 
 
 
