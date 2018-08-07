@@ -1,7 +1,9 @@
-def parse_goals():
-    goals = []
+import sys
 
-    tmp_file = open("goals.txt", "r")
+
+def parse_goals(file_name):
+    goals = []
+    tmp_file = open(file_name, "r")
     for line in tmp_file:
         temp_line = line.strip().split()
         goals.append([temp_line[0], int(temp_line[1]), temp_line[2], map(int, temp_line[3:])])
@@ -58,7 +60,11 @@ def save_results():
     destination_file.close()
 
 
-goals = parse_goals()
+if len(sys.argv) > 1 and sys.argv[1] == "-p":
+    file_name = raw_input()
+    goals = parse_goals(file_name)
+else:
+    goals = parse_goals("goals.txt")
 results = []
 for goal in goals:
     results.append(get_element(goal))
