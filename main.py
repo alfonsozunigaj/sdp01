@@ -14,20 +14,23 @@ def parse_goals(file_name):
 
 
 def swap(ordered_list, index):
-    aux = ordered_list[index]
-    ordered_list[index] = ordered_list[index - 1]
-    ordered_list[index - 1] = aux
+    ordered_list[index], ordered_list[index - 1] = ordered_list[index - 1], ordered_list[index]
+    # aux = ordered_list[index]
+    # ordered_list[index] = ordered_list[index - 1]
+    # ordered_list[index - 1] = aux
 
 
 def order_elements(ordered_list, direction, index):
     j = index
     if direction == "ASC":
         while j > 0 and ordered_list[j - 1][1] > ordered_list[j][1]:
-            swap(ordered_list, j)
+            # swap(ordered_list, j)
+            ordered_list[j], ordered_list[j - 1] = ordered_list[j - 1], ordered_list[j]
             j -= 1
     else:
         while j > 0 and ordered_list[j - 1][1] < ordered_list[j][1]:
-            swap(ordered_list, j)
+            # swap(ordered_list, j)
+            ordered_list[j], ordered_list[j - 1] = ordered_list[j - 1], ordered_list[j]
             j -= 1
     return None
 
@@ -46,14 +49,13 @@ def process_data():
 
 
 def get_element(goal):
-    file_search = goal[0]
     index = goal[1]
     direction = goal[2]
     parameters = goal[3]
 
     order = [None] * (index + 1)
 
-    data_file = open("data/" + file_search, "r")
+    data_file = open("data/" + goal[0], "r")
     data_file.readline()
 
     iterator = 0
@@ -67,8 +69,7 @@ def get_element(goal):
     return order[-2][0]
 
 
-def get_preprocessed_element(goal):
-    global data
+def get_preprocessed_element(goal, data):
     file_search = goal[0]
     index = goal[1]
     direction = goal[2]
@@ -87,24 +88,18 @@ def get_preprocessed_element(goal):
     return order[-2][0]
 
 
-def save_results():
-    global results
-    destination_file = open("results2.txt", "w")
-    for result in results:
-        destination_file.write(result + "\n")
-    destination_file.close()
-
-
-results = []
+results = ""
 if len(sys.argv) > 1 and sys.argv[1] == "-p":
     data = process_data()
     file_name = raw_input()
     goals = parse_goals(file_name)
     for goal in goals:
-        results.append(get_preprocessed_element(goal))
+        results += get_preprocessed_element(goal, data) + "\n"
 else:
     goals = parse_goals("goals.txt")
     for goal in goals:
-        results.append(get_element(goal))
+        results += get_element(goal) + "\n"
 
-save_results()
+destination_file = open("results2.txt", "w")
+destination_file.write(results)
+destination_file.close()
