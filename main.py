@@ -67,6 +67,26 @@ def get_element(goal):
     return order[-2][0]
 
 
+def get_preprocessed_element(goal):
+    global data
+    file_search = goal[0]
+    index = goal[1]
+    direction = goal[2]
+    parameters = goal[3]
+
+    order = [None] * (index + 1)
+
+    data_dictionary = data[file_search]
+
+    iterator = 0
+    for key in data_dictionary:
+        value = [key, sum([a * b for a, b in zip(parameters, map(int, data_dictionary[key]))])]
+        order[min(iterator, index)] = value
+        order_elements(order, direction, min(iterator, index))
+        iterator += 1
+    return order[-2][0]
+
+
 def save_results():
     global results
     destination_file = open("results2.txt", "w")
@@ -75,12 +95,16 @@ def save_results():
     destination_file.close()
 
 
+results = []
 if len(sys.argv) > 1 and sys.argv[1] == "-p":
+    data = process_data()
     file_name = raw_input()
     goals = parse_goals(file_name)
+    for goal in goals:
+        results.append(get_preprocessed_element(goal))
 else:
     goals = parse_goals("goals.txt")
-results = []
-for goal in goals:
-    results.append(get_element(goal))
+    for goal in goals:
+        results.append(get_element(goal))
+
 save_results()
