@@ -13,23 +13,14 @@ def parse_goals(file_name):
     return goals
 
 
-def swap(ordered_list, index):
-    ordered_list[index], ordered_list[index - 1] = ordered_list[index - 1], ordered_list[index]
-    # aux = ordered_list[index]
-    # ordered_list[index] = ordered_list[index - 1]
-    # ordered_list[index - 1] = aux
-
-
 def order_elements(ordered_list, direction, index):
     j = index
     if direction == "ASC":
         while j > 0 and ordered_list[j - 1][1] > ordered_list[j][1]:
-            # swap(ordered_list, j)
             ordered_list[j], ordered_list[j - 1] = ordered_list[j - 1], ordered_list[j]
             j -= 1
     else:
         while j > 0 and ordered_list[j - 1][1] < ordered_list[j][1]:
-            # swap(ordered_list, j)
             ordered_list[j], ordered_list[j - 1] = ordered_list[j - 1], ordered_list[j]
             j -= 1
     return None

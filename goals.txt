@@ -1,3 +1,12 @@
-ejemplo1.csv 42 ASC 1 1 1
-ejemplo1.csv 33 DESC 1 0 0
-ejemplo1.csv 666 ASC 0 1 1
+1.csv 47000 ASC 1 0 1 0 1 0 1 0 1
+2.csv 25000 DESC 1 0 1 0 1 0 1 0 0
+3.csv 78232 ASC 1 0 1 0 1 0 1 0 1
+4.csv 4711 ASC 1 0 1 0 1 0 1 0 1
+5.csv 2523 DESC 1 0 1 0 1 0 1 0 0
+1.csv 78365 ASC 1 0 1 0 1 0 1 0 1
+2.csv 47321 ASC 1 0 1 0 1 0 1 0 1
+3.csv 2532 DESC 1 0 1 0 1 0 1 0 0
+4.csv 78 ASC 1 0 1 0 1 0 1 0 1
+5.csv 90000 ASC 1 0 1 0 1 0 1 0 1
+3.csv 32 DESC 1 0 1 0 1 0 1 0 0
+4.csv 123 ASC 1 0 1 0 1 0 1 0 1
