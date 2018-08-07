@@ -1,4 +1,6 @@
 import sys
+from os import listdir
+from os.path import isfile, join
 
 
 def parse_goals(file_name):
@@ -28,6 +30,19 @@ def order_elements(ordered_list, direction, index):
             swap(ordered_list, j)
             j -= 1
     return None
+
+
+def process_data():
+    file_list = [f for f in listdir("data/") if isfile(join("data/", f))]
+    data = {}
+    for file in file_list:
+        tmp_file = open("data/" + file, "r")
+        tmp_file.readline()
+        data[file] = {}
+        for line in tmp_file:
+            temp_line = line.strip().split(";")
+            data[file][temp_line[0]] = map(int, temp_line[1:])
+    return data
 
 
 def get_element(goal):
