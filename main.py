@@ -1,6 +1,11 @@
 import sys
 from os import listdir
 from os.path import isfile, join
+from datetime import datetime as dt
+
+
+def sort_elems(elem):
+    return elem[1]
 
 
 def parse_goals(file_name):
@@ -11,19 +16,6 @@ def parse_goals(file_name):
         goals.append([temp_line[0], int(temp_line[1]), temp_line[2], map(int, temp_line[3:])])
     tmp_file.close()
     return goals
-
-
-def order_elements(ordered_list, direction, index):
-    j = index
-    if direction == "ASC":
-        while j > 0 and ordered_list[j - 1][1] > ordered_list[j][1]:
-            ordered_list[j], ordered_list[j - 1] = ordered_list[j - 1], ordered_list[j]
-            j -= 1
-    else:
-        while j > 0 and ordered_list[j - 1][1] < ordered_list[j][1]:
-            ordered_list[j], ordered_list[j - 1] = ordered_list[j - 1], ordered_list[j]
-            j -= 1
-    return None
 
 
 def process_data():
@@ -44,20 +36,19 @@ def get_element(goal):
     direction = goal[2]
     parameters = goal[3]
 
-    order = [None] * (index + 1)
+    order = []
 
     data_file = open("data/" + goal[0], "r")
     data_file.readline()
 
-    iterator = 0
     for line in data_file:
         l = line.strip().split(";")
-        value = [l[0], sum([a * b for a, b in zip(parameters, map(int, l[1:]))])]
-        order[min(iterator, index)] = value
-        order_elements(order, direction, min(iterator, index))
-        iterator += 1
+        value = [l[0], sum([a * b for a, b in zip(parameters, map(float, l[1:]))])]
+        order.append(value)
     data_file.close()
-    return order[-2][0]
+
+    order.sort(key=sort_elems, reverse=direction=="DESC")
+    return order[index-1][0]
 
 
 def get_preprocessed_element(goal, data):
@@ -66,23 +57,33 @@ def get_preprocessed_element(goal, data):
     direction = goal[2]
     parameters = goal[3]
 
-    order = [None] * (index + 1)
+    order = []
 
     data_dictionary = data[file_search]
 
-    iterator = 0
     for key in data_dictionary:
         value = [key, sum([a * b for a, b in zip(parameters, map(int, data_dictionary[key]))])]
-        order[min(iterator, index)] = value
-        order_elements(order, direction, min(iterator, index))
-        iterator += 1
-    return order[-2][0]
+        order.append(value)
 
+    order.sort(key=sort_elems, reverse=direction == "DESC")
+    return order[index-1][0]
+
+
+
+
+
+print dt.now()
 
 results = ""
 if len(sys.argv) > 1 and sys.argv[1] == "-p":
     data = process_data()
+    print dt.now()
+    print "\n"
+
     file_name = raw_input()
+
+    print dt.now()
+
     goals = parse_goals(file_name)
     for goal in goals:
         results += get_preprocessed_element(goal, data) + "\n"
@@ -94,3 +95,5 @@ else:
 destination_file = open("results2.txt", "w")
 destination_file.write(results)
 destination_file.close()
+
+print dt.now()
